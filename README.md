@@ -13,7 +13,7 @@ submission by Tejas Barhate
 5. Server starts running on http://localhost:9091 .
 6. Paste http://localhost:9091/swagger/v1/swagger.json in the broswer to view some basic information about the endpoints present in the API.
 
-> STEPS TO RUN THE API TO GET THE DATA
+>API ENDPOINT
 1. The api endpoint is http://localhost:9091/api/gwp/avg
 2. The request object looks like 
 ```
@@ -31,4 +31,16 @@ submission by Tejas Barhate
       "a_s": 168229730.5
   }
 ```
+
+>SOME ASSUMPTIONS
+1. The endpoint returns bad request if we pass empty country name as well as no line of businesses.
+2. Since I was confused about the proper mathematical procedure  to calculate the average gross written premium (GWP), I used the following formula:
+```
+  average = (total of all values from 2008 to 2015)/(no. of non null values from 2008 to 2015)
+```
+
+
+
+
+#### HOPE I WAS ABLE TO SATISFY YOU WITH MY SOLUTION. HOPING TO HEAR POSITIVELY FROM YOU.
     
