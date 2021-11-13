@@ -14,8 +14,10 @@ submission by Tejas Barhate
 6. Paste http://localhost:9091/swagger/v1/swagger.json in the broswer to view some basic information about the endpoints present in the API.
 
 >API ENDPOINT
-1. The api endpoint is http://localhost:9091/api/gwp/avg
-2. The request object looks like 
+1. The api endpoint is http://localhost:9091/api/gwp/avg .
+2. To get the required data we need a POST request on the above mentioned endpoint (using Postman/ Insomnia/ chrome extension).
+3. The Content-Type is application/json.
+4. The request object looks like 
 ```
   {
     "country":"ao",
@@ -34,7 +36,8 @@ submission by Tejas Barhate
 
 >SOME ASSUMPTIONS
 1. The endpoint returns bad request if we pass empty country name as well as no line of businesses.
-2. Since I was confused about the proper mathematical procedure  to calculate the average gross written premium (GWP), I used the following formula:
+2. The endpoint also return bad request if we supply a country name which is not present in the csv file.
+3. Since I was confused about the proper mathematical procedure  to calculate the average gross written premium (GWP), I used the following formula:
 ```
   average = (total of all values from 2008 to 2015)/(no. of non null values from 2008 to 2015)
 ```
