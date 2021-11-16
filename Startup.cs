@@ -27,7 +27,8 @@ namespace Galytix.WebApi
 
             app.UseSwaggerUI(c =>
             {
-               c.SwaggerEndpoint("/swagger/v1/swagger.json", "Galytix WebApi");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Galytix WebApi");
+                c.RoutePrefix = string.Empty;
             });
 
             if (env.IsDevelopment())

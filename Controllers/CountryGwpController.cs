@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,13 +14,6 @@ namespace Galytix.WebApi.Controllers
     public class CountryGwpController : ControllerBase
     {
      
-        [HttpGet]
-        public ActionResult Get()
-        {
-            var _dataService = new DataService();
-            return Ok(_dataService.GetDataRows());
-        }
-
         [HttpPost]
         public ActionResult RetrieveData([FromBody] DataRequest dataRequest)
         {
@@ -45,18 +37,7 @@ namespace Galytix.WebApi.Controllers
 
             var _dataService = new DataService();
 
-            var rawData = _dataService.GetDataRows();
-
-            //FILTERING DATA
-            List<DataRow> result = new List<DataRow>();
-
-            foreach (DataRow x in rawData)
-            {
-                if (x.country.CompareTo(dataRequest.country)==0)
-                {
-                    result.Add(x);
-                }
-            }
+            var result = _dataService.GetDataRows(dataRequest.country, dataRequest.start, dataRequest.end);
 
             //VALIDATING
             if (result.Count() == 0)
@@ -76,69 +57,22 @@ namespace Galytix.WebApi.Controllers
             {
                 if (dict.ContainsKey(x.lineOfBusiness))
                 {
-                    int count = 0;
-                    if (x.Y2008 != null)
+                    int c = 0;
+                    
+                    foreach(double? val in x.values)
                     {
-                        count++;
-                        dict[x.lineOfBusiness] = dict[x.lineOfBusiness] + (double) x.Y2008;
-
+                        if (val != null)
+                        {
+                            c++;
+                            dict[x.lineOfBusiness] += (double)val;
+                        }
                     }
 
-                    if (x.Y2009 != null)
+                    if (c != 0)
                     {
-                        count++;
-                        dict[x.lineOfBusiness] = dict[x.lineOfBusiness] + (double)x.Y2009;
-
-                    }
-
-                    if (x.Y2010 != null)
-                    {
-                        count++;
-                        dict[x.lineOfBusiness] = dict[x.lineOfBusiness] + (double)x.Y2010;
-
-                    }
-
-                    if (x.Y2011 != null)
-                    {
-                        count++;
-                        dict[x.lineOfBusiness] = dict[x.lineOfBusiness] + (double)x.Y2011;
-
-                    }
-
-                    if (x.Y2012 != null)
-                    {
-                        count++;
-                        dict[x.lineOfBusiness] = dict[x.lineOfBusiness] + (double)x.Y2012;
-
-                    }
-
-                    if (x.Y2013 != null)
-                    {
-                        count++;
-                        dict[x.lineOfBusiness] = dict[x.lineOfBusiness] + (double)x.Y2013;
-
-                    }
-
-                    if (x.Y2014 != null)
-                    {
-                        count++;
-                        dict[x.lineOfBusiness] = dict[x.lineOfBusiness] + (double)x.Y2014;
-
-                    }
-
-                    if (x.Y2015 != null)
-                    {
-                        count++;
-                        dict[x.lineOfBusiness] = dict[x.lineOfBusiness] + (double)x.Y2015;
-
-                    }
-
-                    if (count != 0)
-                    {
-                        dict[x.lineOfBusiness] = dict[x.lineOfBusiness] / count;
+                        dict[x.lineOfBusiness] = dict[x.lineOfBusiness] / c;
                         dict[x.lineOfBusiness] = Math.Round(dict[x.lineOfBusiness], 1);
                     }
-
                 }
             }
 

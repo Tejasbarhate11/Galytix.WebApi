@@ -5,14 +5,15 @@ using Microsoft.AspNetCore.Mvc;
 namespace Galytix.WebApi.Controllers
 {
     [ApiController]
-    [Route("/api")]
+    [Route("/api/[controller]")]
     public class ServerController : ControllerBase
     {
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult Get()
+        [Route("ping")]
+        public ActionResult Ping()
         { 
-            return Ok("hello tejas!");
+            return Ok("pong!");
         }
     }
 }

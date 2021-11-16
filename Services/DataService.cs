@@ -1,6 +1,4 @@
-﻿using CsvHelper;
-using Galytix.WebApi.Mappers;
-using Galytix.WebApi.Models;
+﻿using Galytix.WebApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -11,22 +9,50 @@ namespace Galytix.WebApi.Services
 {
     public class DataService
     {
-        public List<DataRow> GetDataRows()
+        public List<DataRow> GetDataRows(string country, int start=2008, int end=2015)
         {
-            try
+            List<DataRow> rows = new List<DataRow>();
+
+            start = start - 2000 + 4;
+            end = end - 2000 + 4;
+
+            
+            using (var reader = new System.IO.StreamReader("E:\\gwpByCountry.csv", Encoding.Default))
             {
-                using (var reader = new System.IO.StreamReader("E:\\gwpByCountry.csv", Encoding.Default))
-                using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+                string[] headers = reader.ReadLine().Split(',');
+
+                while (!reader.EndOfStream)
                 {
-                    csv.Context.RegisterClassMap<DataMapper>();
-                    var records = csv.GetRecords<DataRow>().ToList();
-                    return records;
+                        
+                    string[] row = reader.ReadLine().Split(',');
+                       
+                    if(String.Equals(country, row[0].ToString()))
+                    {
+                        DataRow data = new DataRow();
+
+                        data.country = row[0];
+                        data.variableId = row[1];
+                        data.variableName = row[2];
+                        data.lineOfBusiness = row[3];
+                        data.values = new List<double?>();
+
+                        for (int i = start; i <= Math.Min(end, row.Length - 1); i++)
+                        {
+                            try
+                            {
+                                data.values.Add(Convert.ToDouble(row[i].ToString()));
+                            }
+                            catch (System.FormatException)
+                            {
+                                data.values.Add(null);
+                            }
+                        }
+                        rows.Add(data);
+                    }
+                    
                 }
             }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
+            return rows;
         }
     }
 }
