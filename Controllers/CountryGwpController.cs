@@ -33,6 +33,21 @@ namespace Galytix.WebApi.Controllers
                 return BadRequest("No line of Business provided");
             }
 
+            if (dataRequest.start == null)
+            {
+                return BadRequest("Please provide start year");
+            }
+
+            if (dataRequest.end == null)
+            {
+                return BadRequest("Please provide end year");
+            }
+
+            if (dataRequest.end < dataRequest.start)
+            {
+                return BadRequest("Invalid start and end year");
+            }
+
             //RETREIVING DATA FROM CSV FILE
 
             var _dataService = new DataService();

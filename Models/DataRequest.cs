@@ -10,9 +10,9 @@ namespace Galytix.WebApi.Models
         
         public string[] lob { get; set; }
         
-        public int start { get; set; }
+        public int? start { get; set; }
 
-        public int end { get; set; }
+        public int? end { get; set; }
 
     }
 }

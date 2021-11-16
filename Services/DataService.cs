@@ -9,7 +9,7 @@ namespace Galytix.WebApi.Services
 {
     public class DataService
     {
-        public List<DataRow> GetDataRows(string country, int start=2008, int end=2015)
+        public List<DataRow> GetDataRows(string country, int? start=2008, int? end=2015)
         {
             List<DataRow> rows = new List<DataRow>();
 
@@ -36,7 +36,7 @@ namespace Galytix.WebApi.Services
                         data.lineOfBusiness = row[3];
                         data.values = new List<double?>();
 
-                        for (int i = start; i <= Math.Min(end, row.Length - 1); i++)
+                        for (int i = (int)start; i <= Math.Min((int)end, row.Length - 1); i++)
                         {
                             try
                             {
